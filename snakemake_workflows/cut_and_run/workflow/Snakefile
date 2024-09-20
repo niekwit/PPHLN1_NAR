@@ -1,0 +1,70 @@
+include: "scripts/general_functions.smk"
+import datetime
+from scripts.resources import Resources
+from snakemake.utils import min_version, validate
+
+# Set minimum snakemake version
+min_version("7.25.0")
+
+# Wrapper version
+wrapper_version = "v3.8.0"
+
+# Load config file and genome
+configfile: "config/config.yaml"
+validate(config, "schemas/config.schema.yaml")
+
+# Validate samples.csv
+#samples_csv = pd.read_csv("config/samples.csv")
+#validate(samples_csv, "schemas/samples.schema.yaml")
+
+# Load genome
+genome = config["genome"]
+
+# Load resources to be used in rules
+resources = Resources(genome, 
+                      config["ensembl_genome_build"])
+resources_spike_in = Resources(config["spike_in"]["genome"], 
+                               config["spike_in"]["ensembl_genome_build"])
+
+# Load sample information
+csv = pd.read_csv("config/samples.csv")
+
+# get wildcard values
+SAMPLES = samples()
+IP_SAMPLES, CONTROL_SAMPLES = ip_samples()
+CONDITIONS = conditions(include_controls=True)
+CONDITIONS_NO_CONTROL = conditions(include_controls=False)
+PEAK_MODE = peak_mode()
+fdr = peak_fdr(PEAK_MODE)
+
+# import rules
+include: "rules/fastqc.smk"
+include: "rules/trimming.smk"
+include: "rules/resources.smk"
+include: "rules/mapping.smk"
+include: "rules/scale_factors.smk"
+include: "rules/bigwig.smk"
+include: "rules/deeptools.smk"
+include: "rules/plotting.smk"
+include: "rules/peaks.smk"
+
+# Set target rule
+rule all:
+    input: 
+        targets()
+
+# Set local rules
+localrules: all
+
+# Save snakemake terminal output to log file
+time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+snake_log = f"logs/snakemake/{time}_snakemake.log"
+os.makedirs("logs/snakemake", exist_ok=True)
+
+onsuccess: 
+    shell("cp -v {log} {snake_log}")
+    print("Analysis finished successfully!")
+onerror:
+    shell("cp -v {log} {snake_log}")
+    print(f"Analysis (partly) failed...\nCheck {snake_log} for details")
+

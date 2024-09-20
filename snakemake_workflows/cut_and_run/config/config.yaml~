@@ -1,0 +1,92 @@
+# Notes: 
+# Use Python style for boolean values (True/False)
+genome: hg38
+ensembl_genome_build: 110
+spike_in:
+  apply_spike_in: False
+  genome: MG1655
+  ensembl_genome_build: 57
+  normalisation: divide # bigwig normalisation method: divide or multiply
+use_trim_galore: True # Use Trim_galore instead of cutadapt
+cutadapt:
+  a: AGATCGGAAGAGCACACGTCTGAACTCCAGTCA;min_overlap=6
+  A: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT;min_overlap=6
+  extra: "-q 20 " # Quality score cutoff
+  min_length: 30
+remove_MT_seqs: False # Create bowtie2 index without MT sequences
+bowtie2:
+  min_length: 10 # The minimum fragment length for valid paired-end alignments
+  max_length: 700 # The maximum fragment length for valid paired-end alignments
+  MAPQ_cutoff: 0 # Skip alignments with MAPQ smaller than this value
+  extra: "" # Extra parameters for bowtie2
+  samtools_extra: "" # Extra parameters for samtools
+deeptools:
+  bigwig:
+    normalisation: RPKM # Will be ignored if spike-in is applied
+    binsize: 10
+    extra: ""
+  matrix: # Settings for computeMatrix
+    mode: scale-regions # scale-regions or reference-point
+    referencePoint: TSS # TSS, TES, center (only for reference-point mode)
+    regionBodyLength: 6000
+    upstream: 3000
+    downstream: 3000
+    binSize: 1000
+    averageTypeBins: mean # mean, median, max, min, sum, region_length
+    regionsFileName: "" # BED or GTF file(s) with regions of interest (optional, whole genome if not specified)
+    no_whole_genome: False # If True, will omit whole genome as region and only use regionsFileName(s)
+    extra: "" # Any additional parameters for computeMatrix
+  plotHeatmap:
+    interpolationMethod: auto
+    plotType: lines # lines, fill, se, std
+    colorMap: viridis # https://matplotlib.org/2.0.2/users/colormaps.html
+    alpha: 1.0
+    extra: "" 
+peak_calling:
+  macs2: # use MACS2 for peak calling and DiffBind for differential analysis
+    use_macs2: True
+    broad: False
+    qvalue: 0.05
+    broad_cutoff: 0.1
+    extra: ""
+  htseq_count: # use HTSeq-count to count reads in gene regions and DESeq2 for differential analysis
+    use_htseq_count: False
+    mode: intersection-nonempty # union, intersection-strict, intersection-nonempty
+    feature: gene # GTF feature type to count reads in
+    extra: "" # any additional parameters for htseq-count
+    DESeq2: 
+      cumulative_filter_out: 10 # Filter out genes with less than this number of reads
+      smallest_group: 3 # Smallest group size for filter
+      alpha: 0.05 # FDR cutoff for DESeq2/plots
+      fc: 0.5 # fold change cutoff for volcano plots
+resources: # computing resources
+  trim:
+    cpu: 8
+    time: 60
+  fastqc:
+    cpu: 4
+    time: 60
+  index:
+    cpu: 36
+    time: 60
+  mapping:
+    cpu: 10
+    time: 120
+  samtools:
+    cpu: 4
+    time: 30
+  deeptools:
+    cpu: 6
+    time: 120
+  macs2:
+    cpu: 6
+    time: 60
+  deseq2:
+    cpu: 6
+    time: 60 
+  diffbind:
+    cpu: 56 # requires a lot of memory (Cam HPC allocates memory per cpu)
+    time: 60
+  plotting:
+    cpu: 2
+    time: 20

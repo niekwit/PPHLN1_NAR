@@ -1,0 +1,5 @@
+sample,factor,control,genotype,treatment
+TASOR_1,TASOR,Input_1,K562,None
+TASOR_2,TASOR,Input_2,K562,None
+MPP8_1,MPP8,Input_1,K562,None
+MPP8_2,MPP8,Input_2,K562,None
