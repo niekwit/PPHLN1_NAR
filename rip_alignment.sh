@@ -1,0 +1,121 @@
+umi_tools extract -p NNNNNNNN -I PS34_Empty_R2.fastq -S PS34_Empty_R2_UMI.fastq --read2-in=PS34_Empty_R1.fastq --read2-out=PS34_Empty_R1_UMI.fastq
+#
+cutadapt -j 0 --match-read-wildcards --times 1 -e 0.1 --quality-cutoff 6,6 -U 6 -m 18 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -g CTTCCGATCTACAAGTT -g CTTCCGATCTTGGTCCT -A AACTTGTAGATCGGA -A AGGACCAAGATCGGA -A ACTTGTAGATCGGAA -A GGACCAAGATCGGAA -A CTTGTAGATCGGAAG -A GACCAAGATCGGAAG -A TTGTAGATCGGAAGA -A ACCAAGATCGGAAGA -A TGTAGATCGGAAGAG -A CCAAGATCGGAAGAG -A GTAGATCGGAAGAGC -A CAAGATCGGAAGAGC -A TAGATCGGAAGAGCG -A AAGATCGGAAGAGCG -A AGATCGGAAGAGCGT -A GATCGGAAGAGCGTC -A ATCGGAAGAGCGTCG -A TCGGAAGAGCGTCGT -A CGGAAGAGCGTCGTG -A GGAAGAGCGTCGTGT -o PS34_Empty_R1.adapterTrim.fastq -p PS34_Empty_R2.adapterTrim.fastq PS34_Empty_R1_UMI.fastq PS34_Empty_R2_UMI.fastq > PS34_Empty_Trim.fastq.gz.adapterTrim.metrics  
+#
+hisat2 -x GRCh38_15 -1 PS34_Empty_R1.adapterTrim.fastq -2 PS34_Empty_R2.adapterTrim.fastq -S PS34_Empty.sam
+#
+samtools sort PS34_Empty.sam -o PS34_Empty.bam
+#
+samtools index PS34_Empty.bam PS34_Empty.bam.bai
+#
+umi_tools dedup -I PS34_Empty.bam --paired -S PS34_Empty_dedup.bam
+#
+samtools index PS34_Empty_dedup.bam PS34_Empty_dedup.bam.bai
+#
+#
+umi_tools extract -p NNNNNNNN -I PS34_FL_R2.fastq -S PS34_FL_R2_UMI.fastq --read2-in=PS34_FL_R1.fastq --read2-out=PS34_FL_R1_UMI.fastq
+#
+cutadapt -j 0 --match-read-wildcards --times 1 -e 0.1 --quality-cutoff 6,6 -U 6 -m 18 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -g CTTCCGATCTACAAGTT -g CTTCCGATCTTGGTCCT -A AACTTGTAGATCGGA -A AGGACCAAGATCGGA -A ACTTGTAGATCGGAA -A GGACCAAGATCGGAA -A CTTGTAGATCGGAAG -A GACCAAGATCGGAAG -A TTGTAGATCGGAAGA -A ACCAAGATCGGAAGA -A TGTAGATCGGAAGAG -A CCAAGATCGGAAGAG -A GTAGATCGGAAGAGC -A CAAGATCGGAAGAGC -A TAGATCGGAAGAGCG -A AAGATCGGAAGAGCG -A AGATCGGAAGAGCGT -A GATCGGAAGAGCGTC -A ATCGGAAGAGCGTCG -A TCGGAAGAGCGTCGT -A CGGAAGAGCGTCGTG -A GGAAGAGCGTCGTGT -o PS34_FL_R1.adapterTrim.fastq -p PS34_FL_R2.adapterTrim.fastq PS34_FL_R1_UMI.fastq PS34_FL_R2_UMI.fastq > PS34_FL_Trim.fastq.gz.adapterTrim.metrics  
+#
+hisat2 -x GRCh38_15 -1 PS34_FL_R1.adapterTrim.fastq -2 PS34_FL_R2.adapterTrim.fastq -S PS34_FL.sam
+#
+samtools sort PS34_FL.sam -o PS34_FL.bam
+#
+samtools index PS34_FL.bam PS34_FL.bam.bai
+#
+umi_tools dedup -I PS34_FL.bam --paired -S PS34_FL_dedup.bam
+#
+samtools index PS34_FL_dedup.bam PS34_FL_dedup.bam.bai
+#
+#
+umi_tools extract -p NNNNNNNN -I PS34_L356R_R2.fastq -S PS34_L356R_R2_UMI.fastq --read2-in=PS34_L356R_R1.fastq --read2-out=PS34_L356R_R1_UMI.fastq
+#
+cutadapt -j 0 --match-read-wildcards --times 1 -e 0.1 --quality-cutoff 6,6 -U 6 -m 18 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -g CTTCCGATCTACAAGTT -g CTTCCGATCTTGGTCCT -A AACTTGTAGATCGGA -A AGGACCAAGATCGGA -A ACTTGTAGATCGGAA -A GGACCAAGATCGGAA -A CTTGTAGATCGGAAG -A GACCAAGATCGGAAG -A TTGTAGATCGGAAGA -A ACCAAGATCGGAAGA -A TGTAGATCGGAAGAG -A CCAAGATCGGAAGAG -A GTAGATCGGAAGAGC -A CAAGATCGGAAGAGC -A TAGATCGGAAGAGCG -A AAGATCGGAAGAGCG -A AGATCGGAAGAGCGT -A GATCGGAAGAGCGTC -A ATCGGAAGAGCGTCG -A TCGGAAGAGCGTCGT -A CGGAAGAGCGTCGTG -A GGAAGAGCGTCGTGT -o PS34_L356R_R1.adapterTrim.fastq -p PS34_L356R_R2.adapterTrim.fastq PS34_L356R_R1_UMI.fastq PS34_L356R_R2_UMI.fastq > PS34_L356R_Trim.fastq.gz.adapterTrim.metrics  
+#
+hisat2 -x GRCh38_15 -1 PS34_L356R_R1.adapterTrim.fastq -2 PS34_L356R_R2.adapterTrim.fastq -S PS34_L356R.sam
+#
+samtools sort PS34_L356R.sam -o PS34_L356R.bam
+#
+samtools index PS34_L356R.bam PS34_L356R.bam.bai
+#
+umi_tools dedup -I PS34_L356R.bam --paired -S PS34_L356R_dedup.bam
+#
+samtools index PS34_L356R_dedup.bam PS34_L356R_dedup.bam.bai
+#
+#
+umi_tools extract -p NNNNNNNN -I PS34_L3xA_R2.fastq -S PS34_L3xA_R2_UMI.fastq --read2-in=PS34_L3xA_R1.fastq --read2-out=PS34_L3xA_R1_UMI.fastq
+#
+cutadapt -j 0 --match-read-wildcards --times 1 -e 0.1 --quality-cutoff 6,6 -U 6 -m 18 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -g CTTCCGATCTACAAGTT -g CTTCCGATCTTGGTCCT -A AACTTGTAGATCGGA -A AGGACCAAGATCGGA -A ACTTGTAGATCGGAA -A GGACCAAGATCGGAA -A CTTGTAGATCGGAAG -A GACCAAGATCGGAAG -A TTGTAGATCGGAAGA -A ACCAAGATCGGAAGA -A TGTAGATCGGAAGAG -A CCAAGATCGGAAGAG -A GTAGATCGGAAGAGC -A CAAGATCGGAAGAGC -A TAGATCGGAAGAGCG -A AAGATCGGAAGAGCG -A AGATCGGAAGAGCGT -A GATCGGAAGAGCGTC -A ATCGGAAGAGCGTCG -A TCGGAAGAGCGTCGT -A CGGAAGAGCGTCGTG -A GGAAGAGCGTCGTGT -o PS34_L3xA_R1.adapterTrim.fastq -p PS34_L3xA_R2.adapterTrim.fastq PS34_L3xA_R1_UMI.fastq PS34_L3xA_R2_UMI.fastq > PS34_L3xA_Trim.fastq.gz.adapterTrim.metrics  
+#
+hisat2 -x GRCh38_15 -1 PS34_L3xA_R1.adapterTrim.fastq -2 PS34_L3xA_R2.adapterTrim.fastq -S PS34_L3xA.sam
+#
+samtools sort PS34_L3xA.sam -o PS34_L3xA.bam
+#
+samtools index PS34_L3xA.bam PS34_L3xA.bam.bai
+#
+umi_tools dedup -I PS34_L3xA.bam --paired -S PS34_L3xA_dedup.bam
+#
+samtools index PS34_L3xA_dedup.bam PS34_L3xA_dedup.bam.bai
+#
+#
+umi_tools extract -p NNNNNNNN -I PS34_RBD_R2.fastq -S PS34_RBD_R2_UMI.fastq --read2-in=PS34_RBD_R1.fastq --read2-out=PS34_RBD_R1_UMI.fastq
+#
+cutadapt -j 0 --match-read-wildcards --times 1 -e 0.1 --quality-cutoff 6,6 -U 6 -m 18 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -g CTTCCGATCTACAAGTT -g CTTCCGATCTTGGTCCT -A AACTTGTAGATCGGA -A AGGACCAAGATCGGA -A ACTTGTAGATCGGAA -A GGACCAAGATCGGAA -A CTTGTAGATCGGAAG -A GACCAAGATCGGAAG -A TTGTAGATCGGAAGA -A ACCAAGATCGGAAGA -A TGTAGATCGGAAGAG -A CCAAGATCGGAAGAG -A GTAGATCGGAAGAGC -A CAAGATCGGAAGAGC -A TAGATCGGAAGAGCG -A AAGATCGGAAGAGCG -A AGATCGGAAGAGCGT -A GATCGGAAGAGCGTC -A ATCGGAAGAGCGTCG -A TCGGAAGAGCGTCGT -A CGGAAGAGCGTCGTG -A GGAAGAGCGTCGTGT -o PS34_RBD_R1.adapterTrim.fastq -p PS34_RBD_R2.adapterTrim.fastq PS34_RBD_R1_UMI.fastq PS34_RBD_R2_UMI.fastq > PS34_RBD_Trim.fastq.gz.adapterTrim.metrics  
+#
+hisat2 -x GRCh38_15 -1 PS34_RBD_R1.adapterTrim.fastq -2 PS34_RBD_R2.adapterTrim.fastq -S PS34_RBD.sam
+#
+samtools sort PS34_RBD.sam -o PS34_RBD.bam
+#
+samtools index PS34_RBD.bam PS34_RBD.bam.bai
+#
+umi_tools dedup -I PS34_RBD.bam --paired -S PS34_RBD_dedup.bam
+#
+samtools index PS34_RBD_dedup.bam PS34_RBD_dedup.bam.bai
+#
+#
+umi_tools extract -p NNNNNNNN -I PS34_1_222_R2.fastq -S PS34_1_222_R2_UMI.fastq --read2-in=PS34_1_222_R1.fastq --read2-out=PS34_1_222_R1_UMI.fastq
+#
+cutadapt -j 0 --match-read-wildcards --times 1 -e 0.1 --quality-cutoff 6,6 -U 6 -m 18 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -g CTTCCGATCTACAAGTT -g CTTCCGATCTTGGTCCT -A AACTTGTAGATCGGA -A AGGACCAAGATCGGA -A ACTTGTAGATCGGAA -A GGACCAAGATCGGAA -A CTTGTAGATCGGAAG -A GACCAAGATCGGAAG -A TTGTAGATCGGAAGA -A ACCAAGATCGGAAGA -A TGTAGATCGGAAGAG -A CCAAGATCGGAAGAG -A GTAGATCGGAAGAGC -A CAAGATCGGAAGAGC -A TAGATCGGAAGAGCG -A AAGATCGGAAGAGCG -A AGATCGGAAGAGCGT -A GATCGGAAGAGCGTC -A ATCGGAAGAGCGTCG -A TCGGAAGAGCGTCGT -A CGGAAGAGCGTCGTG -A GGAAGAGCGTCGTGT -o PS34_1_222_R1.adapterTrim.fastq -p PS34_1_222_R2.adapterTrim.fastq PS34_1_222_R1_UMI.fastq PS34_1_222_R2_UMI.fastq > PS34_1_222_Trim.fastq.gz.adapterTrim.metrics  
+#
+hisat2 -x GRCh38_15 -1 PS34_1_222_R1.adapterTrim.fastq -2 PS34_1_222_R2.adapterTrim.fastq -S PS34_1_222.sam
+#
+samtools sort PS34_1_222.sam -o PS34_1_222.bam
+#
+samtools index PS34_1_222.bam PS34_1_222.bam.bai
+#
+umi_tools dedup -I PS34_1_222.bam --paired -S PS34_1_222_dedup.bam
+#
+samtools index PS34_1_222_dedup.bam PS34_1_222_dedup.bam.bai
+#
+#
+umi_tools extract -p NNNNNNNN -I PS34_1_147_R2.fastq -S PS34_1_147_R2_UMI.fastq --read2-in=PS34_1_147_R1.fastq --read2-out=PS34_1_147_R1_UMI.fastq
+#
+cutadapt -j 0 --match-read-wildcards --times 1 -e 0.1 --quality-cutoff 6,6 -U 6 -m 18 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -g CTTCCGATCTACAAGTT -g CTTCCGATCTTGGTCCT -A AACTTGTAGATCGGA -A AGGACCAAGATCGGA -A ACTTGTAGATCGGAA -A GGACCAAGATCGGAA -A CTTGTAGATCGGAAG -A GACCAAGATCGGAAG -A TTGTAGATCGGAAGA -A ACCAAGATCGGAAGA -A TGTAGATCGGAAGAG -A CCAAGATCGGAAGAG -A GTAGATCGGAAGAGC -A CAAGATCGGAAGAGC -A TAGATCGGAAGAGCG -A AAGATCGGAAGAGCG -A AGATCGGAAGAGCGT -A GATCGGAAGAGCGTC -A ATCGGAAGAGCGTCG -A TCGGAAGAGCGTCGT -A CGGAAGAGCGTCGTG -A GGAAGAGCGTCGTGT -o PS34_1_147_R1.adapterTrim.fastq -p PS34_1_147_R2.adapterTrim.fastq PS34_1_147_R1_UMI.fastq PS34_1_147_R2_UMI.fastq > PS34_1_147_Trim.fastq.gz.adapterTrim.metrics  
+#
+hisat2 -x GRCh38_15 -1 PS34_1_147_R1.adapterTrim.fastq -2 PS34_1_147_R2.adapterTrim.fastq -S PS34_1_147.sam
+#
+samtools sort PS34_1_147.sam -o PS34_1_147.bam
+#
+samtools index PS34_1_147.bam PS34_1_147.bam.bai
+#
+umi_tools dedup -I PS34_1_147.bam --paired -S PS34_1_147_dedup.bam
+#
+samtools index PS34_1_147_dedup.bam PS34_1_147_dedup.bam.bai
+#
+#
+umi_tools extract -p NNNNNNNN -I PS34_1_127_R2.fastq -S PS34_1_127_R2_UMI.fastq --read2-in=PS34_1_127_R1.fastq --read2-out=PS34_1_127_R1_UMI.fastq
+#
+cutadapt -j 0 --match-read-wildcards --times 1 -e 0.1 --quality-cutoff 6,6 -U 6 -m 18 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -g CTTCCGATCTACAAGTT -g CTTCCGATCTTGGTCCT -A AACTTGTAGATCGGA -A AGGACCAAGATCGGA -A ACTTGTAGATCGGAA -A GGACCAAGATCGGAA -A CTTGTAGATCGGAAG -A GACCAAGATCGGAAG -A TTGTAGATCGGAAGA -A ACCAAGATCGGAAGA -A TGTAGATCGGAAGAG -A CCAAGATCGGAAGAG -A GTAGATCGGAAGAGC -A CAAGATCGGAAGAGC -A TAGATCGGAAGAGCG -A AAGATCGGAAGAGCG -A AGATCGGAAGAGCGT -A GATCGGAAGAGCGTC -A ATCGGAAGAGCGTCG -A TCGGAAGAGCGTCGT -A CGGAAGAGCGTCGTG -A GGAAGAGCGTCGTGT -o PS34_1_127_R1.adapterTrim.fastq -p PS34_1_127_R2.adapterTrim.fastq PS34_1_127_R1_UMI.fastq PS34_1_127_R2_UMI.fastq > PS34_1_127_Trim.fastq.gz.adapterTrim.metrics  
+#
+hisat2 -x GRCh38_15 -1 PS34_1_127_R1.adapterTrim.fastq -2 PS34_1_127_R2.adapterTrim.fastq -S PS34_1_127.sam
+#
+samtools sort PS34_1_127.sam -o PS34_1_127.bam
+#
+samtools index PS34_1_127.bam PS34_1_127.bam.bai
+#
+umi_tools dedup -I PS34_1_127.bam --paired -S PS34_1_127_dedup.bam
+#
+samtools index PS34_1_127_dedup.bam PS34_1_127_dedup.bam.bai
+#
+#
+# BigWig files were generated with bamCoverage (deepTools) with CPM normalisation
