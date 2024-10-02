@@ -1,4 +1,5 @@
 # An essential role for RNA binding by Periphilin in silencing by the HUSH complex
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13880488.svg)](https://doi.org/10.5281/zenodo.13880488)
 
 Stuart Bloor, Niek Wit and Paul J. Lehner
 
